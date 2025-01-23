@@ -1,0 +1,32 @@
+1. Factory Method Pattern
+Use Case: Creating quiz questions, answers, or user types (e.g., Admin, Regular User).
+Why: This pattern is ideal for creating objects without specifying the exact class of object that will be created. For example, when a user is creating a quiz, different types of questions (MCQ, True/False, etc.) might need to be instantiated.
+Implementation: Create an abstract class or interface for creating different types of questions or answers, and use concrete factories to instantiate them.
+2. Singleton Pattern
+Use Case: Service classes such as QuizService, UserService, or ResultService that should have only one instance throughout the application.
+Why: To ensure there’s a single shared instance for critical components like the Quizify service that manage business logic across the entire app, which makes it easier to manage state and avoids redundant object creation.
+Implementation: The service classes will implement the Singleton pattern to ensure one instance is used throughout the application.
+3. Strategy Pattern
+Use Case: Different quiz evaluation strategies (e.g., scoring logic for different types of quizzes).
+Why: To allow the quiz result calculation logic to vary independently from the context in which it's used. For example, a Multiple Choice Quiz can have a different scoring strategy than a True/False Quiz.
+Implementation: Define a common interface for quiz scoring, and provide different implementations for scoring strategies. The appropriate strategy can be injected at runtime.
+4. Observer Pattern
+Use Case: Notifying users when a quiz is complete or when results are available.
+Why: The Observer Pattern is useful for scenarios where multiple parts of the application need to be notified when a user completes a quiz, a new quiz is created, or when results are posted.
+Implementation: The Quizify app can maintain a list of observers (e.g., notification service, email service) that will be updated whenever a quiz result is posted.
+5. Decorator Pattern
+Use Case: Adding additional features to a quiz or question dynamically, such as timers, randomization, or question hints.
+Why: The Decorator Pattern allows adding responsibilities to objects at runtime. For example, you might want to add a timer to a quiz or make questions appear in random order.
+Implementation: Create base classes for Quiz and Question and decorate them with additional behaviors (e.g., TimedQuizDecorator, RandomizedQuestionDecorator).
+6. Command Pattern
+Use Case: Handling user actions like submitting answers, creating quizzes, or viewing results.
+Why: The Command Pattern is useful when we want to parameterize objects with operations. For example, submitting an answer or creating a quiz can be encapsulated as command objects and queued, which helps in undoing or re-executing actions if needed.
+Implementation: Define command interfaces like SubmitAnswerCommand, CreateQuizCommand, and implement them as concrete classes, which can be executed by a QuizController or QuizInvoker.
+
+Strategy Pattern
+Why: Quizify needs to support various types of quizzes with different evaluation mechanisms, such as multiple-choice, true/false, and different scoring systems. The Strategy Pattern allows you to define a family of algorithms (scoring or evaluation strategies) and make them interchangeable.
+Benefit: By applying the Strategy Pattern, you can easily change how quizzes are scored or evaluated based on their type, and you can add new scoring strategies without modifying the core logic of Quizify. This will provide flexibility as you introduce new quiz types in the future.
+Example: You could have a MultipleChoiceScoreStrategy and a TrueFalseScoreStrategy, and depending on the type of quiz the user is taking, the appropriate strategy can be applied dynamically.
+When to Use: When you have multiple ways of handling similar functionality (like quiz scoring) and want to make the system extensible and flexible without modifying existing code.
+
+Strategy Pattern: Quizify will likely deal with different types of quizzes with varying evaluation logic, and the Strategy pattern allows for easy addition of new evaluation methods or quiz types.

@@ -1,0 +1,42 @@
+This class diagram outlines the fundamental components of the Quiz App system, focusing on the core entities (such as User, Quiz, Question, Answer, Result
+
+        
+User class: Represents a user class in Quizify with attributes like id, username, and email.
+
+Quiz clss: Represents a quiz class in Quizify with attributes like title, description, and questions.
+
+Question class: Represents a question class in a Quizify quiz, including the question text and correct answer.
+
+Answer class: Represents an answer to a question in Quizify, with a flag indicating whether it’s correct.
+
+Result class: Stores the result of a quiz attempt in Quizify, including the score achieved.
+
+UserRepository: Interface for performing CRUD operations on the User entity in Quizify.
+
+QuizRepository: Interface for performing CRUD operations on the Quiz entity in Quizify.
+
+QuestionRepository: Interface for performing CRUD operations on the Question entity in Quizify.
+
+AnswerRepository: Interface for performing CRUD operations on the Answer entity in Quizify.
+
+ResultRepository: Interface for performing CRUD operations on the Result entity in Quizify.
+
+UserService: Contains logic for user registration and management in Quizify.
+
+QuizService: Manages quiz creation, retrieval, and updates in Quizify.
+
+QuestionService: Manages question creation and retrieval for quizzes in Quizify.
+
+AnswerService: Handles answer submission and retrieval for quizzes in Quizify.
+
+ResultService: Calculates and retrieves results for quiz attempts in Quizify.
+
+User to Quiz: A user can create multiple quizzes in Quizify.
+
+Quiz to Question: A quiz in Quizify contains multiple questions.
+
+Quiz to Answer: A quiz in Quizify has multiple answers linked to its questions.
+
+User to Result: A user can have multiple results for different quizzes in Quizify.
+
+Result to Quiz and User: A result in Quizify links a user to a specific quiz

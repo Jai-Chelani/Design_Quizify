@@ -1,0 +1,113 @@
+-By Jai Chelani
+
+*User Module
+Classes:
+User: Represents the individual user and their personal details.
+UserDashboard: Contains user-specific settings and preferences
+
+@Functionalities:
+User Registration & Login: Sign up, login, password reset functionality.
+Profile Management: Update personal details, change password, profile picture..
+User dashboard will show notifications and handle the Performance metrics and user will have a premium user function which will be connected to the payment class .
+ Authentication: Handle login sessions, secure password storage, and authentication.
+
+-By Meet Oza
+
+*Quiz Module
+ Classes: questions, categories, premiumCategories, quizTyes
+ 
+@Functionality:
+addQuestion()
+removeQuestion()
+StartQuiz() and EndQuiz()
+Create new Quiz()
+
+-By Anushka Shrivastava
+
+*Repositories (Question, Answer, Result Repositories)
+Classes:
+QuestionRepository: Handles storage, retrieval, and manipulation of questions.
+AnswerRepository: Stores and retrieves answer options for each question.
+ResultRepository: Stores the results of quizzes for users.
+UserRepository: stores the registered users.
+
+@Functionalities:
+Add/Update/Delete/Save Question: Admin can manage questions in the repository.
+Retrieve Questions: Allow quizzes to pull questions for users.
+Add/Update/Delete/Save Answer & Options: Manage answer options for questions.
+ FindById :question, answer ,quiz and users.
+Store Results: Save user results after completing a quiz.
+Get Quiz Results: Retrieve and display results for a user after quiz completion.
+
+-By Mahi Dugaya
+
+*Admin Module & Admin Dashboard
+Classes:
+Admin: Represents the admin user.
+AdminDashboard: Displays key metrics like active users and quiz performance.
+AdminSettings: Manages system-wide settings.
+AdminNotification: Sends notifications to admins.
+UserStatistics: Stores user activity and performance metrics.
+
+@Functionalities:
+Admin Login: Admin authentication.
+View Dashboard: Overview of system stats, quiz performance.
+Manage Users: Add, update, remove users, and view user list.
+Configure Settings: Modify app-wide settings (quiz categories, time limits).
+User Statistics: View aggregated user data (average scores, activity).
+Send Notifications: Admin sends updates to users. 
+
+*User Manager Module
+Classes:
+UserManager: Manages user operations (add, update, delete).
+UserProfile: Stores and manages user details.
+UserPermissions: Defines user roles and permissions.
+UserActivity: Tracks user actions like quiz attempts.
+
+@Functionalities:
+Add User: Admin adds a new user with roles.
+Update User: Admin can modify user details (name, email, password).
+Remove User: Admin deletes or deactivates users.
+View User List: Admin views and filters users.
+User Permissions: Admin manages user access to app features.
+Track User Activity: Log quiz attempts, scores, and other actions.
+
+-By Yeti Sivamani
+
+*Payment Module
+Classes:
+Payment: Represents a single payment transaction.
+PaymentMethod: Defines the available payment methods (Credit/Debit card, PayPal, etc.)
+
+@Functionalities:
+Process Payment: Handle payment processing
+Add/Edit Payment Methods: Store and modify payment methods.
+Secure Payment: Ensure that payment data is encrypted and secure.
+Payment Confirmation: Send payment confirmation once transaction is successful.
+ 
+-By Mahika Sharma
+
+*Notification Module
+
+Classes:
+AdminNotification
+UserNotification
+
+@Functionalities:
+Send  Notifications
+Create Notifications
+Expire Notifications    
+View Notification                                                                                                                                                 
+
+*Setting Module
+
+Classes:
+AdminSetting
+UserSetting
+
+@Functionalities:
+Update Settings
+Create Settings
+Setting Notifications   
+View Settings                                             
+ 

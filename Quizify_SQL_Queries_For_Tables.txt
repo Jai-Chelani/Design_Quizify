@@ -1,0 +1,239 @@
+-- Use quizdb database
+USE quizdb;
+
+-- Create User Table
+CREATE TABLE User (
+    userid INT PRIMARY KEY,
+    name VARCHAR(60),
+    email VARCHAR(60),
+    password VARCHAR(60),
+    role VARCHAR(60) CHECK (role IN ('admin', 'user')) NOT NULL
+);
+
+-- Insert random users
+INSERT INTO User (userid, name, email, password, role)
+VALUES
+    (1, 'John Doe', 'johndoe@example.com', 'password123', 'Admin'),
+    (2, 'Jane Smith', 'janesmith@example.com', 'password456', 'User'),
+    (3, 'Alice Johnson', 'alicej@example.com', 'password789', 'User');
+
+-- Create Payment Table (User makes a payment)
+CREATE TABLE Payment (
+   paymentid INT PRIMARY KEY,
+   userid INT,
+   amount FLOAT,
+   paymentDate DATE,
+   planType VARCHAR(45) CHECK (planType IN ('Free', 'Premium')) NOT NULL,
+   FOREIGN KEY (userid) REFERENCES User(userid)
+);
+
+-- Insert random payment data
+INSERT INTO Payment (paymentid, userid, amount, paymentDate, planType)
+VALUES
+    (1, 2, 100.0, '2025-02-01', 'Premium'),
+    (2, 3, 0, '2025-02-03', 'Free');
+
+-- Create Notification Table (User receives notifications)
+CREATE TABLE Notification (
+    notificationid INT PRIMARY KEY,
+    userid INT,
+    message VARCHAR(200) NOT NULL,
+    notificationDate DATE NOT NULL,
+    FOREIGN KEY (userid) REFERENCES User(userid)
+);
+
+-- Insert random notification data
+INSERT INTO Notification (notificationid, userid, message, notificationDate)
+VALUES
+    (1, 1, 'Your account has been successfully created', '2025-02-01'),
+    (2, 2, 'Your subscription is about to expire. Please renew.', '2025-02-02'),
+    (3, 3, 'New features are available in our Premium plan.', '2025-02-03');
+
+-- Create Admin Table (Admin manages quizzes)
+CREATE TABLE Admin (
+    adminid INT PRIMARY KEY,
+    adminEmail VARCHAR(100) NOT NULL,
+    adminPassword VARCHAR(50) NOT NULL
+);
+
+-- Insert random admin data
+INSERT INTO Admin (adminid, adminEmail, adminPassword)
+VALUES
+    (1, 'admin1@example.com', 'adminpassword123'),
+    (2, 'admin2@example.com', 'adminpassword456'),
+    (3, 'admin3@example.com', 'adminpassword789');
+
+-- Create Result Table (Result is linked to User and Quiz)
+CREATE TABLE Result (
+    resultid INT PRIMARY KEY,
+    userid INT,
+    quizid INT,
+    score INT,
+    totalQuestions INT,
+    timeSpent INT,
+    FOREIGN KEY (userid) REFERENCES User(userid),
+    FOREIGN KEY (quizid) REFERENCES Quiz(quizID)
+);
+
+-- Insert random result data
+INSERT INTO Result (resultid, userid, quizid, score, totalQuestions, timeSpent)
+VALUES
+    (1, 1, 1, 85, 100, 12),
+    (2, 2, 2, 90, 100, 11),
+    (3, 3, 3, 75, 100, 13);
+
+-- Create Quiz Table (Quiz is created by Admin and linked to Questions)
+CREATE TABLE Quiz (
+    quizID INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    category VARCHAR(255) NOT NULL,
+    type ENUM('Free', 'Premium') NOT NULL,
+    duration INT NOT NULL,
+    createdBy INT,
+    FOREIGN KEY (createdBy) REFERENCES Admin(adminid)
+);
+
+-- Insert random quiz data
+INSERT INTO Quiz (title, description, category, type, duration, createdBy)
+VALUES
+    ('Web Development Basics', 'A quiz on fundamental web development topics.', 'Programming Languages', 'Free', 30, 1),
+    ('General Knowledge Challenge', 'A general knowledge quiz covering various topics.', 'General Knowledge', 'Premium', 45, 2),
+    ('Science and Nature', 'Test your knowledge on science and nature.', 'Science', 'Free', 25, 3),
+    ('World History', 'A quiz on important historical events and figures.', 'History', 'Premium', 40, 1),
+    ('Geography Challenge', 'A quiz on geographical locations, capitals, and more.', 'Geography', 'Free', 35, 3);
+
+-- Create Question Table (Question is linked to a category and belongs to a quiz)
+CREATE TABLE Question (
+    questionID INT AUTO_INCREMENT PRIMARY KEY,
+    quizID INT,
+    category_id INT,
+    question_text TEXT NOT NULL,
+    option_a VARCHAR(255) NOT NULL,
+    option_b VARCHAR(255) NOT NULL,
+    option_c VARCHAR(255) NOT NULL,
+    option_d VARCHAR(255) NOT NULL,
+    answer_text VARCHAR(255) NOT NULL,
+    difficulty ENUM('easy', 'medium', 'hard') NOT NULL,
+    FOREIGN KEY (quizID) REFERENCES Quiz(quizID),
+    FOREIGN KEY (category_id) REFERENCES Category(id)
+);
+
+-- Insert random questions (example for quiz_id = 1)
+INSERT INTO Question (quizID, category_id, question_text, option_a, option_b, option_c, option_d, answer_text, difficulty)
+VALUES
+    (1, 1, 'Which language is used for web development?', 'Python', 'JavaScript', 'C++', 'Java', 'JavaScript', 'easy'),
+    (1, 2, 'What is the capital of France?', 'Berlin', 'Madrid', 'Paris', 'Rome', 'Paris', 'easy'),
+    (1, 3, 'What is the chemical symbol for water?', 'H2O', 'CO2', 'O2', 'N2', 'H2O', 'easy');
+
+-- Create Answer Table (Answer is linked to a question)
+CREATE TABLE Answer (
+    answerId INT AUTO_INCREMENT PRIMARY KEY,
+    questionId INT,
+    answerText TEXT NOT NULL,
+    isCorrect BOOLEAN NOT NULL,
+    FOREIGN KEY (questionId) REFERENCES Question(questionID)
+);
+
+-- Insert random answer data
+INSERT INTO Answer (questionId, answerText, isCorrect)
+VALUES
+    (1, 'JavaScript', TRUE),
+    (2, 'Paris', TRUE),
+    (3, 'H2O', TRUE);
+
+-- Create QuizRepository Table (Repository for saving quiz data)
+CREATE TABLE QuizRepository (
+    quizFindById VARCHAR(255) NOT NULL,
+    quizSaveQuiz VARCHAR(255) NOT NULL,
+    PRIMARY KEY (quizFindById)
+);
+
+-- Insert random quiz repository data
+INSERT INTO QuizRepository (quizFindById, quizSaveQuiz)
+VALUES
+    ('quiz_1', 'save_quiz_1'),
+    ('quiz_2', 'save_quiz_2'),
+    ('quiz_3', 'save_quiz_3');
+
+-- Create QARepository Table (Repository for questions and answers)
+CREATE TABLE QARepository (
+    questionFindById VARCHAR(255) NOT NULL,
+    questionSave VARCHAR(255) NOT NULL,
+    answerSave VARCHAR(255) NOT NULL,
+    submitAnswer VARCHAR(255) NOT NULL,
+    PRIMARY KEY (questionFindById)
+);
+
+-- Insert random QA repository data
+INSERT INTO QARepository (questionFindById, questionSave, answerSave, submitAnswer)
+VALUES
+    ('q_1', 'save_question_1', 'answer_1', 'submit_answer_1'),
+    ('q_2', 'save_question_2', 'answer_2', 'submit_answer_2'),
+    ('q_3', 'save_question_3', 'answer_3', 'submit_answer_3');
+
+-- Create AdminDashboard Table (Admin dashboard for viewing stats)
+CREATE TABLE AdminDashboard (
+    adminId INT,
+    totalUsers INT,
+    totalQuizzes INT,
+    totalResults INT,
+    FOREIGN KEY (adminId) REFERENCES Admin(adminid)
+);
+
+-- Insert random AdminDashboard data
+INSERT INTO AdminDashboard (adminId, totalUsers, totalQuizzes, totalResults)
+VALUES
+    (1, 3, 5, 3),
+    (2, 2, 4, 2),
+    (3, 3, 5, 3);
+
+-- UserRepository Table (For storing user data)
+CREATE TABLE UserRepository (
+    userFindById VARCHAR(50) NOT NULL,
+    userSave VARCHAR(50) NOT NULL,
+    PRIMARY KEY (userFindById)
+);
+
+-- Insert random UserRepository data
+INSERT INTO UserRepository (userFindById, userSave)
+VALUES
+    ('user_1', 'save_user_1'),
+    ('user_2', 'save_user_2'),
+    ('user_3', 'save_user_3');
+
+RENAME TABLE User TO Role;
+
+-- Modify the 'Role' table:
+-- 1. Add 'roleid' as primary key
+-- 2. Remove unnecessary columns
+ALTER TABLE Role
+    ADD COLUMN roleid INT PRIMARY KEY,      -- Add 'roleid' as primary key
+    DROP COLUMN userid,                     -- Remove 'userid' column
+    DROP COLUMN name,                       -- Remove 'name' column
+    DROP COLUMN email,                      -- Remove 'email' column
+    DROP COLUMN password;                   -- Remove 'password' column
+
+-- Insert example roles into the 'Role' table
+INSERT INTO Role (roleid, role)
+VALUES
+    (1, 'Admin'),  -- Admin role
+    (2, 'User');   -- Regular User role
+
+-- Rename 'Admin' table to 'User'
+RENAME TABLE admin TO User;
+
+-- Modify the 'User' table: 
+-- 1. Add 'username', 'password', and 'roleid'
+-- 2. Add a foreign key relationship to the 'Role' table (roleid)
+ALTER TABLE User
+    ADD COLUMN username VARCHAR(100) NOT NULL,    -- Add 'username' column
+    ADD COLUMN password VARCHAR(100) NOT NULL,    -- Add 'password' column
+    ADD COLUMN roleid INT,                         -- Add 'roleid' column to reference 'Role'
+    ADD CONSTRAINT FK_User_Role FOREIGN KEY (roleid) REFERENCES Role(roleid);  -- Create foreign key constraint to Role
+
+-- Insert sample data into 'User' table (formerly 'Admin')
+INSERT INTO User (username, password, roleid)
+VALUES
+    ('admin1', 'adminpassword123', 1),  -- Admin user with roleid 1
+    ('user1', 'userpassword123', 2); 
